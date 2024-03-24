@@ -9,7 +9,7 @@ pipeline {
     stage('CheckOut') {
       steps {
         echo 'Checkout the source code from GitHub'
-        git branch: 'master', url: git 'https://github.com/poojachede/insurancerepo'
+        git 'https://github.com/poojachede/insurancerepo'
             }
     }
    stage('Package') {
