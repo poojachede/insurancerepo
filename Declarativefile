@@ -45,6 +45,8 @@ pipeline {
         sh 'docker push poojachede/apr-insure-project:2.0'
                    }
             }
+     stage('Deploy to Test server') {
+    
     }
 }
 
