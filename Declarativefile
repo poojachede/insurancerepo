@@ -45,8 +45,12 @@ pipeline {
         sh 'docker push poojachede/apr-insure-project:2.0'
                    }
             }
-     stage('Deploy to Test server') {
-    
+     stage('Deploy to  Test server') {
+      steps {
+        ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'ansible-playbook.yml', vaultTmpPath: ''
+        
     }
 }
 
+}
+}
