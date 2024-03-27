@@ -21,20 +21,20 @@ pipeline {
    stage('Publish TestNG report') {
       steps {
         echo 'Generate a TestNG report'
-        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/root/.jenkins/workspace/InsureMeProject/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-            }
-    }
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/InsureMeProject/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+             }
+      }
    stage('Create Docker Image') {
       steps {
         echo 'Create a Docker Image'
-        sh 'docker build -t poojachede/apr-insure-project:2.0 .'
+        sh 'docker build -t poojachede/apr-insure-project:3.0 .'
             }
     }
      stage('Docker Login') {
       steps {
         echo 'Docker Login'
-        withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerpass')]) {
-        sh 'docker login -u poojachede -p ${dockerpass}'
+        withCredentials([usernamePassword(credentialsId: 'dockerlogin', passwordVariable: 'dockerhubpass', usernameVariable: 'dockerhubuser')]) {
+        sh 'docker login -u poojachede -p ${dockerhubpass}'
 
                     }
              }
@@ -42,7 +42,7 @@ pipeline {
      stage('Push Docker Image') {
       steps {
         echo 'Push a Docker Image'
-        sh 'docker push poojachede/apr-insure-project:2.0'
+        sh 'docker push poojachede/apr-insure-project:3.0'
                    }
             }
      stage('Deploy to  Test server') {
